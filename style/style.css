@@ -1,0 +1,39 @@
+body{
+    width: 100vw;
+    height:100vh;
+    margin: 0;
+    background-color: rgb(185, 214, 243);
+}
+
+header{
+    display: flex;
+    align-items: center;
+}
+
+menu{
+    margin-left: 50px;
+}
+
+.logo{
+    margin: 1%;
+}
+
+#searchInput{
+width: 400px;
+}
+
+main{
+    display: flex;
+}
+
+.movie-container{
+    display: flex;
+    flex-direction: column;
+}
+
+aside{
+    display: flex;
+    flex-direction: column;
+    margin-right: 50px;
+    margin-left: 20px;
+}
