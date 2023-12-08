@@ -25,7 +25,8 @@ let yearInput = document.getElementById('yearInput')
 let searchBtn = document.getElementById('searchbtn');
 let addBtn = document.getElementById('addbtn');
 
-//let movieList = [];
+let movieArray = []
+
 async function displayMovies() {
     const movieList = await getDocs(collection(db, 'Movies'));
 
@@ -37,6 +38,7 @@ async function displayMovies() {
         let movieElem = document.createElement('div');
         movieElem.innerHTML = `<h1>${movie.title}</h1> <h3>${movie.genre}</h3> <h3>${movie.year}</h3>`
         movieContainer.appendChild(movieElem);
+        movieArray.push(movie);
 
         let deleteBtn = document.createElement('button');
         deleteBtn.innerText = "Delete movie";
@@ -45,17 +47,21 @@ async function displayMovies() {
     });
 }
 await displayMovies();
+//console.log(movieArray);
 
-async function addMovie() {
+
+async function addMovie(movieArray) {
     let title = titleInput.value;
     let genre = genreInput.value;
     let year = yearInput.value;
 
-    
-if (movieList.some(movie => movie.title === title)) {
-        console.log('Movie with the same title already exists!');
-        return;
+    for (let i = 0; i < movieArray.length; i++) {
+        if (movieArray[i].title === title) {
+            console.log('Movie with the same title already exists!');
+            return; // Exit the function if a duplicate is found
+        }
     }
+    console.log('Movie is added to the collection');
     await addDoc(collection(db, 'Movies'),
         {
             title: title,
@@ -63,17 +69,18 @@ if (movieList.some(movie => movie.title === title)) {
             year: year,
             watched: false
         });
-        location.reload();
+    location.reload();
 }
 
 addBtn.addEventListener('click', () => {
-    addMovie();
+    addMovie(movieArray);
+
 });
 
 async function deleteMovie(movieId) {
     await deleteDoc(doc(db, 'Movies', movieId));
-    location.reload();
-    // Lägga till function som uppdaterar sidan direkt efter
+    location.reload();// Function som uppdaterar sidan direkt efter
+
 }
 
 
