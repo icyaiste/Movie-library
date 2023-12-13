@@ -41,9 +41,17 @@ async function displayMovies() {
         movieArray.push(movie);
 
         let deleteBtn = document.createElement('button');
-        deleteBtn.innerText = "Delete movie";
+        deleteBtn.innerText = "Delete";
         movieElem.appendChild(deleteBtn);
         deleteBtn.addEventListener("click", () => deleteMovie(addedMovie.id));
+
+        let watchedbtn = document.createElement('button');
+        watchedbtn.innerText = "Watch";
+        movieElem.appendChild(watchedbtn);
+        let currentWatchedValue = false;
+        watchedbtn.addEventListener("click", async () => {
+            currentWatchedValue = await updateWatched(addedMovie.id, currentWatchedValue, watchedbtn);
+        });
     });
 }
 await displayMovies();
@@ -56,7 +64,8 @@ async function addMovie(movieArray) {
     let year = yearInput.value;
 
     for (let i = 0; i < movieArray.length; i++) {
-        if (movieArray[i].title === title) {
+        let newMovie = movieArray[i];
+        if (newMovie.title === title) {
             console.log('Movie with the same title already exists!');
             return; // Exit the function if a duplicate is found
         }
@@ -81,6 +90,25 @@ async function deleteMovie(movieId) {
     await deleteDoc(doc(db, 'Movies', movieId));
     location.reload();// Function som uppdaterar sidan direkt efter
 
+}
+
+async function updateWatched(movieId, currentWatchedValue, watchedbtn) {
+    const selectedMovie = doc(db, 'Movies', movieId);
+    //console.log(selectedMovie);
+    if (currentWatchedValue == true) {
+        currentWatchedValue = false;
+        watchedbtn.innerText = "Watch";
+    } else if (currentWatchedValue == false) {
+        currentWatchedValue = true;
+        watchedbtn.innerText = "Watched";
+    }
+
+    //const updateWatchedValue = !currentWatchedValue;   //Simplified if statement
+    await updateDoc(selectedMovie, // Update the movie document in Firestore with the new watched value
+        {
+            watched: currentWatchedValue
+        });
+    return currentWatchedValue;
 }
 
 
