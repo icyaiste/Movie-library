@@ -1,8 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, updateDoc, doc, query, where } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-import { db } from "./index.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+import { db } from "./config.js";
 
-let movieArray = []
+let movieArray = [];
 
 let movieContainer = document.querySelector('.movie-container');
 
@@ -31,5 +30,8 @@ async function displayMovies() {
         });
     });
 }
+await displayMovies();
 
-export{displayMovies,movieContainer, movieArray}
+export { displayMovies, movieContainer, movieArray }
+
+
