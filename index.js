@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, updateDoc, doc, query, where } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
 
 const firebaseConfig = {
@@ -14,19 +14,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig); // Initierar och ansluter mot Firebase
 const db = getFirestore(app); // Ansluter och hämtar vår databas
 
-
-//Inputfält
-let searchInput = document.getElementById('searchInput');
-let titleInput = document.getElementById('titleInput');
-let genreInput = document.getElementById('genreInput');
-let yearInput = document.getElementById('yearInput')
-
-//Buttons
-let searchBtn = document.getElementById('searchbtn');
-let addBtn = document.getElementById('addbtn');
-
 let movieArray = []
-
 let movieContainer = document.querySelector('.movie-container');
 
 async function displayMovies() {
@@ -59,9 +47,9 @@ await displayMovies();
 
 
 async function addMovie(movieArray) {
-    let title = titleInput.value;
-    let genre = genreInput.value;
-    let year = yearInput.value;
+    let title = document.getElementById('titleInput').value;
+    let genre = document.getElementById('genreInput').value;
+    let year = document.getElementById('yearInput').value;
 
     for (let i = 0; i < movieArray.length; i++) {
         let newMovie = movieArray[i];
@@ -81,7 +69,7 @@ async function addMovie(movieArray) {
     location.reload();
 }
 
-addBtn.addEventListener('click', () => {
+document.getElementById('addbtn').addEventListener('click', () => {
     addMovie(movieArray);
 
 });
@@ -111,23 +99,41 @@ async function updateWatched(movieId, currentWatchedValue, watchedbtn) {
     return currentWatchedValue;
 }
 
-function searchMovie(movie){
-let searchValue = searchInput.value;
+async function searchMovie() {
+    let title = document.getElementById('searchInput').value;
 
-movieArray.forEach(searchedMovie => {
-    if (searchedMovie.title == searchValue) {
-        console.log('Movie found:', searchedMovie);
-movieContainer.innerHTML = `<h1>${searchedMovie.title}</h1> <h3>${searchedMovie.genre}</h3> <h3>${searchedMovie.year}</h3>`
+    const foundMovies = await getDocs(
+        query(collection(db, 'Movies'), where('title', '==', title))
+        );
 
+let results = [];
 
-if (searchedMovie.title !== searchValue)
-    console.log('There is no movie with this name');
+        foundMovies.forEach((movie) => {
+            const foundMovie = movie.data();
+       
+results.push(foundMovie);
+ });
+
+ results.forEach((foundMovie) => {
+    movieContainer.innerHTML = `<h1>${foundMovie.title}</h1> <h3>${foundMovie.genre}</h3> <h3>${foundMovie.year}</h3>`;
+ });
 }
 
-});
-}
-searchBtn.addEventListener("click", () => {
-searchMovie();
+
+
+
+   /* movieArray.forEach(searchedMovie => {
+        if (searchedMovie.title == searchValue) {
+            console.log('Movie found:', searchedMovie);
+            movieContainer.innerHTML = `<h1>${searchedMovie.title}</h1> <h3>${searchedMovie.genre}</h3> <h3>${searchedMovie.year}</h3>`;
+        } else (searchedMovie.title !== searchValue)
+            console.log('There is no movie with this name');
+    });*/
+
+
+
+document.getElementById('searchbtn').addEventListener("click", () => {
+    searchMovie();
 });
 
 
