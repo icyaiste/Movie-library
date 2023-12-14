@@ -27,10 +27,10 @@ let addBtn = document.getElementById('addbtn');
 
 let movieArray = []
 
+let movieContainer = document.querySelector('.movie-container');
+
 async function displayMovies() {
     const movieList = await getDocs(collection(db, 'Movies'));
-
-    let movieContainer = document.querySelector('.movie-container');
 
     movieList.forEach(addedMovie => {
         const movie = addedMovie.data();
@@ -111,6 +111,24 @@ async function updateWatched(movieId, currentWatchedValue, watchedbtn) {
     return currentWatchedValue;
 }
 
+function searchMovie(movie){
+let searchValue = searchInput.value;
+
+movieArray.forEach(searchedMovie => {
+    if (searchedMovie.title == searchValue) {
+        console.log('Movie found:', searchedMovie);
+movieContainer.innerHTML = `<h1>${searchedMovie.title}</h1> <h3>${searchedMovie.genre}</h3> <h3>${searchedMovie.year}</h3>`
+
+
+if (searchedMovie.title !== searchValue)
+    console.log('There is no movie with this name');
+}
+
+});
+}
+searchBtn.addEventListener("click", () => {
+searchMovie();
+});
 
 
 
