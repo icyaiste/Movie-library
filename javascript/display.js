@@ -1,3 +1,5 @@
+//Hämtar och visar alla filmer i databasen
+
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 import { db } from "./config.js";
 
@@ -11,7 +13,7 @@ async function displayMovies() {
     movieList.forEach(addedMovie => {
         const movie = addedMovie.data();
         //console.log(movie);
-        let movieElem = document.createElement('div');
+        let movieElem = document.createElement('section');
         movieElem.innerHTML = `<h1>${movie.title}</h1> <h3>${movie.genre}</h3> <h3>${movie.year}</h3>`
         movieContainer.appendChild(movieElem);
         movieArray.push(movie);
@@ -33,5 +35,3 @@ async function displayMovies() {
 await displayMovies();
 
 export { displayMovies, movieContainer, movieArray }
-
-

@@ -10,26 +10,40 @@
 
 <body>
     <header>
-        <img class="logo" src="/style/images/logo-t.png" height="50px" alt="logotype">
+        <img class="logo" src="/style/images/logo-t.png" height="80px" alt="logotype">
         <menu>
-            <input id="searchInput" type="search" placeholder="Title">
-            <button id="searchbtn" type="button">"Search"</button>
+            <div class="textInputWrapper">
+                <input id="searchInput" placeholder="Type Here" type="text" class="textInput">
+            </div>
+            <button id="searchbtn" type="button">
+                <span class="span">🔎</span>
+            </button>
         </menu>
     </header>
     <main>
-    <aside>
-        <p>Title:</p>
-        <input id="titleInput" type="search" placeholder="Title">
-        <p>Genre:</p>
-        <input id="genreInput" type="search" placeholder="Genre">
-        <p>Year released:</p>
-        <input id="yearInput" type="search" placeholder="Year">
-        <button id="addbtn" type="button">"Add movie"</button>
-    </aside>
-    <section class="movie-container">
-
-    </section>
-</main>
+        <aside>
+            <div class="textInputWrapper">
+                <input id="titleInput" class="textInput" type="search" placeholder="Title">
+            </div>
+            <div class="textInputWrapper">
+                <input id="genreInput" class="textInput" type="search" placeholder="Genre">
+            </div>
+            <div class="textInputWrapper">
+                <input id="yearInput" class="textInput" type="search" placeholder="Year">
+            </div>
+            <button id="addbtn" type="button" class="add-button">
+                <span class="add-button__text">Add movie</span>
+                <span class="add-button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24"
+                        stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor"
+                        height="24" fill="none" class="svg">
+                        <line y2="19" y1="5" x2="12" x1="12"></line>
+                        <line y2="12" y1="12" x2="19" x1="5"></line>
+                    </svg></span>
+            </button>
+        </aside>
+        <footer class="movie-container">
+        </footer>
+    </main>
     <script type="module" src="/javascript/index.js">  </script>
 </body>
 
