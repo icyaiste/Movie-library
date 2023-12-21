@@ -2,6 +2,7 @@
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 import { db } from "./config.js";
+import { deleteMovie, updateWatched } from "./functions.js"
 
 let movieArray = [];
 
